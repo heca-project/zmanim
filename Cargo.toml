@@ -1,6 +1,6 @@
 [package]
 name = "zmanim"
-version = "0.0.1"
+version = "0.0.2"
 authors = ["picked name <ipickedaname@mail.com>"]
 edition = "2018"
 description = "Hebrew Zmanim library"
