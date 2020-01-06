@@ -1,0 +1,17 @@
+[package]
+name = "zmanim"
+version = "0.0.1"
+authors = ["picked name <ipickedaname@mail.com>"]
+edition = "2018"
+description = "Hebrew Zmanim library"
+keywords = ["library", "calendar", "hebrew", "jewish"]
+categories = ["date-and-time"]
+license = "MIT"
+repository = "https://github.com/heca-project/zmanim"
+readme = "README.md"
+
+# See more keys and their definitions at https://doc.rust-lang.org/cargo/reference/manifest.html
+
+[dependencies]
+chrono = "0.4"
+sunrise = "1.0"
