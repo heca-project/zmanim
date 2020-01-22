@@ -4,12 +4,13 @@ use chrono::prelude::*;
 
 pub mod prelude;
 
+#[must_use]
 pub fn get(
-    zmanim: Zmanim,
+    zmanim: &Zmanim,
     latitude: f64,
     longitude: f64,
     date: NaiveDate,
-    time_zone: TimeZone,
+    time_zone: &TimeZone,
 ) -> DateTime<FixedOffset> {
     let (sunrise, sunset) =
         sunrise::sunrise_sunset(latitude, longitude, date.year(), date.month(), date.day());

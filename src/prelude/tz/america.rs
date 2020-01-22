@@ -165,47 +165,47 @@ impl America {
             "Kentucky" => Ok(Self::Kentucky(Kentuky::try_from_path(&p[1..])?)),
             "North_Dakota" => Ok(Self::NorthDakota(NorthDakota::try_from_path(&p[1..])?)),
             "Bahia_Banderas" => Ok(Self::BahiaBanderas),
-            "Blanc-Sablon" => Ok(America::BlancSablon),
-            "Boa_Vista" => Ok(America::BoaVista),
-            "Buenos_Aires" => Ok(America::BuenosAires),
-            "Cambridge_Bay" => Ok(America::CambridgeBay),
-            "Campo_Grande" => Ok(America::CampoGrande),
-            "Coral_Harbour" => Ok(America::CoralHarbour),
-            "Thunder_Bay" => Ok(America::ThunderBay),
-            "Swift_Current" => Ok(America::SwiftCurrent),
-            "St_Vincent" => Ok(America::StVincent),
-            "St_Thomas" => Ok(America::StThomas),
-            "St_Lucia" => Ok(America::StLucia),
-            "St_Kitts" => Ok(America::StKitts),
-            "St_Johns" => Ok(America::StJohns),
-            "St_Barthelemy" => Ok(America::StBarthelemy),
-            "Sao_Paulo" => Ok(America::SaoPaulo),
-            "Santo_Domingo" => Ok(America::SantoDomingo),
-            "Santa_Isabel" => Ok(America::SantaIsabel),
-            "Rio_Branco" => Ok(America::RioBranco),
-            "Rankin_Inlet" => Ok(America::RankinInlet),
-            "Rainy_River" => Ok(America::RainyRiver),
-            "Punta_Arenas" => Ok(America::PuntaArenas),
-            "Costa_Rica" => Ok(America::CostaRica),
-            "Dawson_Creek" => Ok(America::DawsonCreek),
-            "El_Salvador" => Ok(America::ElSalvador),
-            "Fort_Nelson" => Ok(America::FortNelson),
-            "Fort_Wayne" => Ok(America::FortWayne),
-            "Glace_Bay" => Ok(America::GlaceBay),
-            "Goose_Bay" => Ok(America::GooseBay),
-            "Grand_Turk" => Ok(America::GrandTurk),
-            "Knox_IN" => Ok(America::KnoxIN),
-            "La_Paz" => Ok(America::LaPaz),
-            "Los_Angeles" => Ok(America::LosAngeles),
-            "Lower_Princes" => Ok(America::LowerPrinces),
-            "Mexico_City" => Ok(America::MexicoCity),
-            "New_York" => Ok(America::NewYork),
-            "Port_of_Spain" => Ok(America::PortOfSpain),
-            "Port-au-Prince" => Ok(America::PortAuPrince),
-            "Porto_Acre" => Ok(America::PortoAcre),
-            "Porto_Velho" => Ok(America::PortoVelho),
-            "Puerto_Rico" => Ok(America::PuertoRico),
-            other => America::from_str(other).map_err(|_| Error::WrongTimeZone(p[0].to_string())),
+            "Blanc-Sablon" => Ok(Self::BlancSablon),
+            "Boa_Vista" => Ok(Self::BoaVista),
+            "Buenos_Aires" => Ok(Self::BuenosAires),
+            "Cambridge_Bay" => Ok(Self::CambridgeBay),
+            "Campo_Grande" => Ok(Self::CampoGrande),
+            "Coral_Harbour" => Ok(Self::CoralHarbour),
+            "Thunder_Bay" => Ok(Self::ThunderBay),
+            "Swift_Current" => Ok(Self::SwiftCurrent),
+            "St_Vincent" => Ok(Self::StVincent),
+            "St_Thomas" => Ok(Self::StThomas),
+            "St_Lucia" => Ok(Self::StLucia),
+            "St_Kitts" => Ok(Self::StKitts),
+            "St_Johns" => Ok(Self::StJohns),
+            "St_Barthelemy" => Ok(Self::StBarthelemy),
+            "Sao_Paulo" => Ok(Self::SaoPaulo),
+            "Santo_Domingo" => Ok(Self::SantoDomingo),
+            "Santa_Isabel" => Ok(Self::SantaIsabel),
+            "Rio_Branco" => Ok(Self::RioBranco),
+            "Rankin_Inlet" => Ok(Self::RankinInlet),
+            "Rainy_River" => Ok(Self::RainyRiver),
+            "Punta_Arenas" => Ok(Self::PuntaArenas),
+            "Costa_Rica" => Ok(Self::CostaRica),
+            "Dawson_Creek" => Ok(Self::DawsonCreek),
+            "El_Salvador" => Ok(Self::ElSalvador),
+            "Fort_Nelson" => Ok(Self::FortNelson),
+            "Fort_Wayne" => Ok(Self::FortWayne),
+            "Glace_Bay" => Ok(Self::GlaceBay),
+            "Goose_Bay" => Ok(Self::GooseBay),
+            "Grand_Turk" => Ok(Self::GrandTurk),
+            "Knox_IN" => Ok(Self::KnoxIN),
+            "La_Paz" => Ok(Self::LaPaz),
+            "Los_Angeles" => Ok(Self::LosAngeles),
+            "Lower_Princes" => Ok(Self::LowerPrinces),
+            "Mexico_City" => Ok(Self::MexicoCity),
+            "New_York" => Ok(Self::NewYork),
+            "Port_of_Spain" => Ok(Self::PortOfSpain),
+            "Port-au-Prince" => Ok(Self::PortAuPrince),
+            "Porto_Acre" => Ok(Self::PortoAcre),
+            "Porto_Velho" => Ok(Self::PortoVelho),
+            "Puerto_Rico" => Ok(Self::PuertoRico),
+            other => Self::from_str(other).map_err(|_| Error::WrongTimeZone(p[0].to_string())),
         }
     }
 }
@@ -233,12 +233,12 @@ impl Argentina {
             return Err(Error::TooManyElements(p.len()));
         }
         match p[0] {
-            "Buenos_Aires" => Ok(Argentina::BuenosAires),
-            "La_Rioja" => Ok(Argentina::LaRioja),
-            "Rio_Gallegos" => Ok(Argentina::RioGallegos),
-            "San_Juan" => Ok(Argentina::SanJuan),
-            "San_Luis" => Ok(Argentina::SanLuis),
-            other => Argentina::from_str(other).map_err(|_| Error::WrongTimeZone(p[0].to_string())),
+            "Buenos_Aires" => Ok(Self::BuenosAires),
+            "La_Rioja" => Ok(Self::LaRioja),
+            "Rio_Gallegos" => Ok(Self::RioGallegos),
+            "San_Juan" => Ok(Self::SanJuan),
+            "San_Luis" => Ok(Self::SanLuis),
+            other => Self::from_str(other).map_err(|_| Error::WrongTimeZone(p[0].to_string())),
         }
     }
 }
@@ -260,8 +260,8 @@ impl Indiana {
             return Err(Error::TooManyElements(p.len()));
         }
         match p[0] {
-            "Tell_City" => Ok(Indiana::TellCity),
-            other => Indiana::from_str(other).map_err(|_| Error::WrongTimeZone(p[0].to_string())),
+            "Tell_City" => Ok(Self::TellCity),
+            other => Self::from_str(other).map_err(|_| Error::WrongTimeZone(p[0].to_string())),
         }
     }
 }
@@ -278,7 +278,7 @@ impl Kentuky {
             return Err(Error::TooManyElements(p.len()));
         }
         match p[0] {
-            other => Kentuky::from_str(other).map_err(|_| Error::WrongTimeZone(p[0].to_string())),
+            other => Self::from_str(other).map_err(|_| Error::WrongTimeZone(p[0].to_string())),
         }
     }
 }
@@ -293,12 +293,12 @@ pub enum NorthDakota {
 impl NorthDakota {
     pub(crate) fn try_from_path(p: &[&str]) -> Result<Self, Error> {
         if p.len() != 1 {
-            return Err(Error::TooManyElements(p.len()));
+             return Err(Error::TooManyElements(p.len()));
         }
         match p[0] {
-            "New_Salem" => Ok(NorthDakota::NewSalem),
+            "New_Salem" => Ok(Self::NewSalem),
             other => {
-                NorthDakota::from_str(other).map_err(|_| Error::WrongTimeZone(p[0].to_string()))
+                Self::from_str(other).map_err(|_| Error::WrongTimeZone(p[0].to_string()))
             }
         }
     }

@@ -24,9 +24,9 @@ impl Antarctica {
             return Err(Error::TooManyElements(p.len()));
         }
         match p[0] {
-            "South_Pole" => Ok(Antarctica::SouthPole),
+            "South_Pole" => Ok(Self::SouthPole),
             other => {
-                Antarctica::from_str(other).map_err(|_| Error::WrongTimeZone(p[0].to_string()))
+                Self::from_str(other).map_err(|_| Error::WrongTimeZone(p[0].to_string()))
             }
         }
     }

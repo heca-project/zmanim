@@ -118,6 +118,6 @@ impl Asia {
         if p.len() != 1 {
             return Err(Error::TooManyElements(p.len()));
         }
-        Asia::from_str(p[0]).map_err(|_| Error::WrongTimeZone(p[0].to_string()))
+        Self::from_str(p[0]).map_err(|_| Error::WrongTimeZone(p[0].to_string()))
     }
 }
