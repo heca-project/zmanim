@@ -15,3 +15,6 @@ readme = "README.md"
 [dependencies]
 chrono = "0.4"
 sunrise = "1.0"
+chrono-tz = "0.4.1"
+strum = "0.17.1"
+strum_macros = "0.17.1"
