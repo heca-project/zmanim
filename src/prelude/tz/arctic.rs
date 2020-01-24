@@ -4,7 +4,8 @@ use chrono::{Datelike, FixedOffset, NaiveDate, NaiveDateTime};
 use chrono_tz::Arctic::*;
 use std::str::FromStr;
 use strum_macros::EnumString;
-#[derive(Debug, EnumString)]
+#[derive(Debug, EnumString, Clone)]
+#[non_exhaustive]
 pub enum Arctic {
     Longyearbyen,
 }

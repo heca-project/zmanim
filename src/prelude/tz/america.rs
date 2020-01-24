@@ -4,7 +4,8 @@ use chrono::{Datelike, FixedOffset, NaiveDate};
 use chrono_tz::America::*;
 use std::str::FromStr;
 use strum_macros::EnumString;
-#[derive(Debug, EnumString)]
+#[derive(Debug, EnumString, Clone)]
+#[non_exhaustive]
 pub enum America {
     #[strum(disabled = "true")]
     Argentina(Argentina),
@@ -373,7 +374,8 @@ impl America {
         }
     }
 }
-#[derive(Debug, EnumString)]
+#[derive(Debug, EnumString, Clone)]
+#[non_exhaustive]
 pub enum Argentina {
     BuenosAires,
     Catamarca,
@@ -429,7 +431,8 @@ impl Argentina {
             .fix()
     }
 }
-#[derive(Debug, EnumString)]
+#[derive(Debug, EnumString, Clone)]
+#[non_exhaustive]
 pub enum Indiana {
     Indianapolis,
     Knox,
@@ -471,7 +474,8 @@ impl Indiana {
             .fix()
     }
 }
-#[derive(Debug, EnumString)]
+#[derive(Debug, EnumString, Clone)]
+#[non_exhaustive]
 pub enum Kentucky {
     Louisville,
     Monticello,
@@ -500,7 +504,8 @@ impl Kentucky {
             .fix()
     }
 }
-#[derive(Debug, EnumString)]
+#[derive(Debug, EnumString, Clone)]
+#[non_exhaustive]
 pub enum NorthDakota {
     Beulah,
     Center,

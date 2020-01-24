@@ -34,9 +34,9 @@ pub mod indian;
 pub mod mexico;
 pub mod pacific;
 pub mod us;
-#[non_exhaustive]
-#[derive(Deserialize, Debug)]
+#[derive(Deserialize, Debug, Clone)]
 #[serde(try_from = "&str")]
+#[non_exhaustive]
 pub enum TimeZone {
     Africa(africa::Africa),
     America(america::America),
@@ -101,6 +101,7 @@ pub enum TimeZone {
     Zulu,
 }
 #[derive(Debug)]
+#[non_exhaustive]
 pub enum Error {
     WrongTimeZone(String),
     TooManyElements(usize),
