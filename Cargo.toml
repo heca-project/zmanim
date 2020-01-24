@@ -1,6 +1,6 @@
 [package]
 name = "zmanim"
-version = "0.0.4"
+version = "0.0.5"
 authors = ["picked name <ipickedaname@mail.com>"]
 edition = "2018"
 description = "Hebrew Zmanim library"
@@ -18,3 +18,4 @@ sunrise = "1.0.0"
 chrono-tz = "0.5.1"
 strum = "0.17.1"
 strum_macros = "0.17.1"
+serde= { version = "1.0", features = ["derive"] }

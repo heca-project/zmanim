@@ -14,6 +14,7 @@ fn check_time_zones() {
 
 #[test]
 fn check_zmanim_windhoek() {
+    use zmanim::prelude::tz::africa::*;
     use zmanim::prelude::tz::*;
     let tz = get(
         &Zmanim::Sunset,
@@ -21,7 +22,8 @@ fn check_zmanim_windhoek() {
         17.00,
         NaiveDate::from_ymd(2020, 1, 22),
         &TimeZone::Africa(Africa::Windhoek),
-    ).unwrap();
+    )
+    .unwrap();
 
     let tz_offset = FixedOffset::east(2 * 60 * 60);
     let orig_time: DateTime<FixedOffset> = tz_offset
@@ -34,6 +36,7 @@ fn check_zmanim_windhoek() {
 
 #[test]
 fn check_zmanim_cairo() {
+    use zmanim::prelude::tz::africa::*;
     use zmanim::prelude::tz::*;
     let tz = get(
         &Zmanim::Sunset,
@@ -41,7 +44,8 @@ fn check_zmanim_cairo() {
         31.2357,
         NaiveDate::from_ymd(2020, 1, 22),
         &TimeZone::Africa(Africa::Cairo),
-    ).unwrap();
+    )
+    .unwrap();
     let tz_offset = FixedOffset::east(2 * 60 * 60);
     let orig_time: DateTime<FixedOffset> = tz_offset
         .from_local_datetime(&NaiveDate::from_ymd(2020, 1, 22).and_hms(17, 22, 49))
@@ -53,6 +57,7 @@ fn check_zmanim_cairo() {
 
 #[test]
 fn check_zmanim_madagascar() {
+    use zmanim::prelude::tz::africa::*;
     use zmanim::prelude::tz::*;
     let tz = get(
         &Zmanim::Sunset,
@@ -60,7 +65,8 @@ fn check_zmanim_madagascar() {
         47.5079,
         NaiveDate::from_ymd(2020, 1, 22),
         &TimeZone::Africa(Africa::Nairobi),
-    ).unwrap();
+    )
+    .unwrap();
 
     let tz_offset = FixedOffset::east(3 * 60 * 60);
     let orig_time: DateTime<FixedOffset> = tz_offset
@@ -71,9 +77,9 @@ fn check_zmanim_madagascar() {
     }
 }
 
-
 #[test]
 fn check_zmanim_nyc() {
+    use zmanim::prelude::tz::america::*;
     use zmanim::prelude::tz::*;
     let tz = get(
         &Zmanim::Sunset,
@@ -81,7 +87,8 @@ fn check_zmanim_nyc() {
         -74.0060,
         NaiveDate::from_ymd(2020, 1, 22),
         &TimeZone::America(America::NewYork),
-    ).unwrap();
+    )
+    .unwrap();
 
     let tz_offset = FixedOffset::west(5 * 60 * 60);
     let orig_time: DateTime<FixedOffset> = tz_offset
@@ -94,6 +101,7 @@ fn check_zmanim_nyc() {
 
 #[test]
 fn check_zmanim_south_pole() {
+    use zmanim::prelude::tz::america::*;
     use zmanim::prelude::tz::*;
     let orig_date = NaiveDate::from_ymd(2020, 1, 22);
     for i in 0..365 {

@@ -1,56 +1,59 @@
-pub use crate::prelude::tz::africa::Africa;
-pub use crate::prelude::tz::america::America;
-pub use crate::prelude::tz::antarctica::Antarctica;
-pub use crate::prelude::tz::arctic::Arctic;
-pub use crate::prelude::tz::asia::Asia;
-pub use crate::prelude::tz::atlantic::Atlantic;
-pub use crate::prelude::tz::australia::Australia;
-pub use crate::prelude::tz::brazil::Brazil;
-pub use crate::prelude::tz::canada::Canada;
-pub use crate::prelude::tz::chile::Chile;
-pub use crate::prelude::tz::etc::Etc;
-pub use crate::prelude::tz::europe::Europe;
-pub use crate::prelude::tz::indian::Indian;
-pub use crate::prelude::tz::mexico::Mexico;
-pub use crate::prelude::tz::pacific::Pacific;
+use crate::prelude::tz::africa::Africa;
+use crate::prelude::tz::america::America;
+use crate::prelude::tz::antarctica::Antarctica;
+use crate::prelude::tz::arctic::Arctic;
+use crate::prelude::tz::asia::Asia;
+use crate::prelude::tz::atlantic::Atlantic;
+use crate::prelude::tz::australia::Australia;
+use crate::prelude::tz::brazil::Brazil;
+use crate::prelude::tz::canada::Canada;
+use crate::prelude::tz::chile::Chile;
+use crate::prelude::tz::etc::Etc;
+use crate::prelude::tz::europe::Europe;
+use crate::prelude::tz::indian::Indian;
+use crate::prelude::tz::mexico::Mexico;
+use crate::prelude::tz::pacific::Pacific;
 use crate::prelude::tz::us::US;
 use chrono::{FixedOffset, NaiveDateTime};
+use serde::Deserialize;
 use std::convert::TryFrom;
-mod africa;
-mod america;
-mod antarctica;
-mod arctic;
-mod asia;
-mod atlantic;
-mod australia;
-mod brazil;
-mod canada;
-mod chile;
-mod etc;
-mod europe;
-mod indian;
-mod mexico;
-mod pacific;
-mod us;
+use std::fmt;
+pub mod africa;
+pub mod america;
+pub mod antarctica;
+pub mod arctic;
+pub mod asia;
+pub mod atlantic;
+pub mod australia;
+pub mod brazil;
+pub mod canada;
+pub mod chile;
+pub mod etc;
+pub mod europe;
+pub mod indian;
+pub mod mexico;
+pub mod pacific;
+pub mod us;
 #[non_exhaustive]
-#[derive(Debug)]
+#[derive(Deserialize, Debug)]
+#[serde(try_from = "&str")]
 pub enum TimeZone {
-    Africa(Africa),
-    America(America),
-    Antarctica(Antarctica),
-    Arctic(Arctic),
-    Asia(Asia),
-    Atlantic(Atlantic),
-    Australia(Australia),
-    Brazil(Brazil),
-    Canada(Canada),
-    Chile(Chile),
-    Etc(Etc),
-    Europe(Europe),
-    Indian(Indian),
-    Mexico(Mexico),
-    Pacific(Pacific),
-    US(US),
+    Africa(africa::Africa),
+    America(america::America),
+    Antarctica(antarctica::Antarctica),
+    Arctic(arctic::Arctic),
+    Asia(asia::Asia),
+    Atlantic(atlantic::Atlantic),
+    Australia(australia::Australia),
+    Brazil(brazil::Brazil),
+    Canada(canada::Canada),
+    Chile(chile::Chile),
+    Etc(etc::Etc),
+    Europe(europe::Europe),
+    Indian(indian::Indian),
+    Mexico(mexico::Mexico),
+    Pacific(pacific::Pacific),
+    US(us::US),
     CET,
     CST6CDT,
     Cuba,
@@ -101,6 +104,14 @@ pub enum TimeZone {
 pub enum Error {
     WrongTimeZone(String),
     TooManyElements(usize),
+}
+impl fmt::Display for Error {
+    fn fmt(&self, f: &mut fmt::Formatter<'_>) -> fmt::Result {
+        match self {
+            Self::WrongTimeZone(wtz) => write!(f, "TimeZone \"{}\" not understood", wtz),
+            Self::TooManyElements(e) => write!(f, "TimeZone nested too deeply (\"{}\")", e),
+        }
+    }
 }
 impl TimeZone {
     pub(crate) fn get_tz(&self, datetime: &NaiveDateTime) -> FixedOffset {
