@@ -1,7 +1,9 @@
 use crate::prelude::tz::*;
+use chrono::offset::{Offset, TimeZone};
+use chrono::{Datelike, FixedOffset, NaiveDate};
+use chrono_tz::America::*;
 use std::str::FromStr;
 use strum_macros::EnumString;
-
 #[derive(Debug, EnumString)]
 pub enum America {
     #[strum(disabled = "true")]
@@ -9,10 +11,9 @@ pub enum America {
     #[strum(disabled = "true")]
     Indiana(Indiana),
     #[strum(disabled = "true")]
-    Kentucky(Kentuky),
+    Kentucky(Kentucky),
     #[strum(disabled = "true")]
     NorthDakota(NorthDakota),
-    Constants,
     Adak,
     Anchorage,
     Anguilla,
@@ -162,7 +163,7 @@ impl America {
         match p[0] {
             "Argentina" => Ok(Self::Argentina(Argentina::try_from_path(&p[1..])?)),
             "Indiana" => Ok(Self::Indiana(Indiana::try_from_path(&p[1..])?)),
-            "Kentucky" => Ok(Self::Kentucky(Kentuky::try_from_path(&p[1..])?)),
+            "Kentucky" => Ok(Self::Kentucky(Kentucky::try_from_path(&p[1..])?)),
             "North_Dakota" => Ok(Self::NorthDakota(NorthDakota::try_from_path(&p[1..])?)),
             "Bahia_Banderas" => Ok(Self::BahiaBanderas),
             "Blanc-Sablon" => Ok(Self::BlancSablon),
@@ -208,8 +209,170 @@ impl America {
             other => Self::from_str(other).map_err(|_| Error::WrongTimeZone(p[0].to_string())),
         }
     }
+    pub(crate) fn get_tz(&self, datetime: &NaiveDateTime) -> FixedOffset {
+        match self {
+            Self::Argentina(argentina) => argentina.get_tz(datetime),
+            Self::Indiana(indiana) => indiana.get_tz(datetime),
+            Self::Kentucky(kentucky) => kentucky.get_tz(datetime),
+            Self::NorthDakota(north_dakota) => north_dakota.get_tz(datetime),
+            left => {
+                let p = match left {
+                    Self::Adak => Adak.from_local_datetime(datetime).unwrap(),
+                    Self::Anchorage => Anchorage.from_local_datetime(datetime).unwrap(),
+                    Self::Anguilla => Anguilla.from_local_datetime(datetime).unwrap(),
+                    Self::Antigua => Antigua.from_local_datetime(datetime).unwrap(),
+                    Self::Araguaina => Araguaina.from_local_datetime(datetime).unwrap(),
+                    Self::Aruba => Aruba.from_local_datetime(datetime).unwrap(),
+                    Self::Asuncion => Asuncion.from_local_datetime(datetime).unwrap(),
+                    Self::Atikokan => Atikokan.from_local_datetime(datetime).unwrap(),
+                    Self::Atka => Atka.from_local_datetime(datetime).unwrap(),
+                    Self::Bahia => Bahia.from_local_datetime(datetime).unwrap(),
+                    Self::BahiaBanderas => Bahia_Banderas.from_local_datetime(datetime).unwrap(),
+                    Self::Barbados => Barbados.from_local_datetime(datetime).unwrap(),
+                    Self::Belem => Belem.from_local_datetime(datetime).unwrap(),
+                    Self::Belize => Belize.from_local_datetime(datetime).unwrap(),
+                    Self::BlancSablon => BlancSablon.from_local_datetime(datetime).unwrap(),
+                    Self::BoaVista => Boa_Vista.from_local_datetime(datetime).unwrap(),
+                    Self::Bogota => Bogota.from_local_datetime(datetime).unwrap(),
+                    Self::Boise => Boise.from_local_datetime(datetime).unwrap(),
+                    Self::BuenosAires => Buenos_Aires.from_local_datetime(datetime).unwrap(),
+                    Self::CambridgeBay => Cambridge_Bay.from_local_datetime(datetime).unwrap(),
+                    Self::CampoGrande => Campo_Grande.from_local_datetime(datetime).unwrap(),
+                    Self::Cancun => Cancun.from_local_datetime(datetime).unwrap(),
+                    Self::Caracas => Caracas.from_local_datetime(datetime).unwrap(),
+                    Self::Catamarca => Catamarca.from_local_datetime(datetime).unwrap(),
+                    Self::Cayenne => Cayenne.from_local_datetime(datetime).unwrap(),
+                    Self::Cayman => Cayman.from_local_datetime(datetime).unwrap(),
+                    Self::Chicago => Chicago.from_local_datetime(datetime).unwrap(),
+                    Self::Chihuahua => Chihuahua.from_local_datetime(datetime).unwrap(),
+                    Self::CoralHarbour => Coral_Harbour.from_local_datetime(datetime).unwrap(),
+                    Self::Cordoba => Cordoba.from_local_datetime(datetime).unwrap(),
+                    Self::CostaRica => Costa_Rica.from_local_datetime(datetime).unwrap(),
+                    Self::Creston => Creston.from_local_datetime(datetime).unwrap(),
+                    Self::Cuiaba => Cuiaba.from_local_datetime(datetime).unwrap(),
+                    Self::Curacao => Curacao.from_local_datetime(datetime).unwrap(),
+                    Self::Danmarkshavn => Danmarkshavn.from_local_datetime(datetime).unwrap(),
+                    Self::Dawson => Dawson.from_local_datetime(datetime).unwrap(),
+                    Self::DawsonCreek => Dawson_Creek.from_local_datetime(datetime).unwrap(),
+                    Self::Denver => Denver.from_local_datetime(datetime).unwrap(),
+                    Self::Detroit => Detroit.from_local_datetime(datetime).unwrap(),
+                    Self::Dominica => Dominica.from_local_datetime(datetime).unwrap(),
+                    Self::Edmonton => Edmonton.from_local_datetime(datetime).unwrap(),
+                    Self::Eirunepe => Eirunepe.from_local_datetime(datetime).unwrap(),
+                    Self::ElSalvador => El_Salvador.from_local_datetime(datetime).unwrap(),
+                    Self::Ensenada => Ensenada.from_local_datetime(datetime).unwrap(),
+                    Self::FortNelson => Fort_Nelson.from_local_datetime(datetime).unwrap(),
+                    Self::FortWayne => Fort_Wayne.from_local_datetime(datetime).unwrap(),
+                    Self::Fortaleza => Fortaleza.from_local_datetime(datetime).unwrap(),
+                    Self::GlaceBay => Glace_Bay.from_local_datetime(datetime).unwrap(),
+                    Self::Godthab => Godthab.from_local_datetime(datetime).unwrap(),
+                    Self::GooseBay => Goose_Bay.from_local_datetime(datetime).unwrap(),
+                    Self::GrandTurk => Grand_Turk.from_local_datetime(datetime).unwrap(),
+                    Self::Grenada => Grenada.from_local_datetime(datetime).unwrap(),
+                    Self::Guadeloupe => Guadeloupe.from_local_datetime(datetime).unwrap(),
+                    Self::Guatemala => Guatemala.from_local_datetime(datetime).unwrap(),
+                    Self::Guayaquil => Guayaquil.from_local_datetime(datetime).unwrap(),
+                    Self::Guyana => Guyana.from_local_datetime(datetime).unwrap(),
+                    Self::Halifax => Halifax.from_local_datetime(datetime).unwrap(),
+                    Self::Havana => Havana.from_local_datetime(datetime).unwrap(),
+                    Self::Hermosillo => Hermosillo.from_local_datetime(datetime).unwrap(),
+                    Self::Indianapolis => Indianapolis.from_local_datetime(datetime).unwrap(),
+                    Self::Inuvik => Inuvik.from_local_datetime(datetime).unwrap(),
+                    Self::Iqaluit => Iqaluit.from_local_datetime(datetime).unwrap(),
+                    Self::Jamaica => Jamaica.from_local_datetime(datetime).unwrap(),
+                    Self::Jujuy => Jujuy.from_local_datetime(datetime).unwrap(),
+                    Self::Juneau => Juneau.from_local_datetime(datetime).unwrap(),
+                    Self::KnoxIN => Knox_IN.from_local_datetime(datetime).unwrap(),
+                    Self::Kralendijk => Kralendijk.from_local_datetime(datetime).unwrap(),
+                    Self::LaPaz => La_Paz.from_local_datetime(datetime).unwrap(),
+                    Self::Lima => Lima.from_local_datetime(datetime).unwrap(),
+                    Self::LosAngeles => Los_Angeles.from_local_datetime(datetime).unwrap(),
+                    Self::Louisville => Louisville.from_local_datetime(datetime).unwrap(),
+                    Self::LowerPrinces => Lower_Princes.from_local_datetime(datetime).unwrap(),
+                    Self::Maceio => Maceio.from_local_datetime(datetime).unwrap(),
+                    Self::Managua => Managua.from_local_datetime(datetime).unwrap(),
+                    Self::Manaus => Manaus.from_local_datetime(datetime).unwrap(),
+                    Self::Marigot => Marigot.from_local_datetime(datetime).unwrap(),
+                    Self::Martinique => Martinique.from_local_datetime(datetime).unwrap(),
+                    Self::Matamoros => Matamoros.from_local_datetime(datetime).unwrap(),
+                    Self::Mazatlan => Mazatlan.from_local_datetime(datetime).unwrap(),
+                    Self::Mendoza => Mendoza.from_local_datetime(datetime).unwrap(),
+                    Self::Menominee => Menominee.from_local_datetime(datetime).unwrap(),
+                    Self::Merida => Merida.from_local_datetime(datetime).unwrap(),
+                    Self::Metlakatla => Metlakatla.from_local_datetime(datetime).unwrap(),
+                    Self::MexicoCity => Mexico_City.from_local_datetime(datetime).unwrap(),
+                    Self::Miquelon => Miquelon.from_local_datetime(datetime).unwrap(),
+                    Self::Moncton => Moncton.from_local_datetime(datetime).unwrap(),
+                    Self::Monterrey => Monterrey.from_local_datetime(datetime).unwrap(),
+                    Self::Montevideo => Montevideo.from_local_datetime(datetime).unwrap(),
+                    Self::Montreal => Montreal.from_local_datetime(datetime).unwrap(),
+                    Self::Montserrat => Montserrat.from_local_datetime(datetime).unwrap(),
+                    Self::Nassau => Nassau.from_local_datetime(datetime).unwrap(),
+                    Self::NewYork => New_York.from_local_datetime(datetime).unwrap(),
+                    Self::Nipigon => Nipigon.from_local_datetime(datetime).unwrap(),
+                    Self::Nome => Nome.from_local_datetime(datetime).unwrap(),
+                    Self::Noronha => Noronha.from_local_datetime(datetime).unwrap(),
+                    Self::Ojinaga => Ojinaga.from_local_datetime(datetime).unwrap(),
+                    Self::Panama => Panama.from_local_datetime(datetime).unwrap(),
+                    Self::Pangnirtung => Pangnirtung.from_local_datetime(datetime).unwrap(),
+                    Self::Paramaribo => Paramaribo.from_local_datetime(datetime).unwrap(),
+                    Self::Phoenix => Phoenix.from_local_datetime(datetime).unwrap(),
+                    Self::PortOfSpain => Port_of_Spain.from_local_datetime(datetime).unwrap(),
+                    Self::PortAuPrince => PortauPrince.from_local_datetime(datetime).unwrap(),
+                    Self::PortoAcre => Porto_Acre.from_local_datetime(datetime).unwrap(),
+                    Self::PortoVelho => Porto_Velho.from_local_datetime(datetime).unwrap(),
+                    Self::PuertoRico => Puerto_Rico.from_local_datetime(datetime).unwrap(),
+                    Self::PuntaArenas => Punta_Arenas.from_local_datetime(datetime).unwrap(),
+                    Self::RainyRiver => Rainy_River.from_local_datetime(datetime).unwrap(),
+                    Self::RankinInlet => Rankin_Inlet.from_local_datetime(datetime).unwrap(),
+                    Self::Recife => Recife.from_local_datetime(datetime).unwrap(),
+                    Self::Regina => Regina.from_local_datetime(datetime).unwrap(),
+                    Self::Resolute => Resolute.from_local_datetime(datetime).unwrap(),
+                    Self::RioBranco => Rio_Branco.from_local_datetime(datetime).unwrap(),
+                    Self::Rosario => Rosario.from_local_datetime(datetime).unwrap(),
+                    Self::SantaIsabel => Santa_Isabel.from_local_datetime(datetime).unwrap(),
+                    Self::Santarem => Santarem.from_local_datetime(datetime).unwrap(),
+                    Self::Santiago => Santiago.from_local_datetime(datetime).unwrap(),
+                    Self::SantoDomingo => Santo_Domingo.from_local_datetime(datetime).unwrap(),
+                    Self::SaoPaulo => Sao_Paulo.from_local_datetime(datetime).unwrap(),
+                    Self::Scoresbysund => Scoresbysund.from_local_datetime(datetime).unwrap(),
+                    Self::Shiprock => Shiprock.from_local_datetime(datetime).unwrap(),
+                    Self::Sitka => Sitka.from_local_datetime(datetime).unwrap(),
+                    Self::StBarthelemy => St_Barthelemy.from_local_datetime(datetime).unwrap(),
+                    Self::StJohns => St_Johns.from_local_datetime(datetime).unwrap(),
+                    Self::StKitts => St_Kitts.from_local_datetime(datetime).unwrap(),
+                    Self::StLucia => St_Lucia.from_local_datetime(datetime).unwrap(),
+                    Self::StThomas => St_Thomas.from_local_datetime(datetime).unwrap(),
+                    Self::StVincent => St_Vincent.from_local_datetime(datetime).unwrap(),
+                    Self::SwiftCurrent => Swift_Current.from_local_datetime(datetime).unwrap(),
+                    Self::Tegucigalpa => Tegucigalpa.from_local_datetime(datetime).unwrap(),
+                    Self::Thule => Thule.from_local_datetime(datetime).unwrap(),
+                    Self::ThunderBay => Thunder_Bay.from_local_datetime(datetime).unwrap(),
+                    Self::Tijuana => Tijuana.from_local_datetime(datetime).unwrap(),
+                    Self::Toronto => Toronto.from_local_datetime(datetime).unwrap(),
+                    Self::Tortola => Tortola.from_local_datetime(datetime).unwrap(),
+                    Self::Vancouver => Vancouver.from_local_datetime(datetime).unwrap(),
+                    Self::Virgin => Virgin.from_local_datetime(datetime).unwrap(),
+                    Self::Whitehorse => Whitehorse.from_local_datetime(datetime).unwrap(),
+                    Self::Winnipeg => Winnipeg.from_local_datetime(datetime).unwrap(),
+                    Self::Yakutat => Yakutat.from_local_datetime(datetime).unwrap(),
+                    Self::Yellowknife => Yellowknife.from_local_datetime(datetime).unwrap(),
+                    Self::Argentina(_)
+                    | Self::Indiana(_)
+                    | Self::Kentucky(_)
+                    | Self::NorthDakota(_) => unreachable!(),
+                };
+                p.timezone()
+                    .offset_from_utc_date(&NaiveDate::from_ymd(
+                        datetime.year(),
+                        datetime.month(),
+                        datetime.day(),
+                    ))
+                    .fix()
+            }
+        }
+    }
 }
-
 #[derive(Debug, EnumString)]
 pub enum Argentina {
     BuenosAires,
@@ -226,7 +389,6 @@ pub enum Argentina {
     Tucuman,
     Ushuaia,
 }
-
 impl Argentina {
     pub(crate) fn try_from_path(p: &[&str]) -> Result<Self, Error> {
         if p.len() != 1 {
@@ -241,6 +403,31 @@ impl Argentina {
             other => Self::from_str(other).map_err(|_| Error::WrongTimeZone(p[0].to_string())),
         }
     }
+    pub(crate) fn get_tz(&self, datetime: &NaiveDateTime) -> FixedOffset {
+        use chrono_tz::America::Argentina::*;
+        let p = match self {
+            Self::BuenosAires => Buenos_Aires.from_local_datetime(datetime).unwrap(),
+            Self::Catamarca => Catamarca.from_local_datetime(datetime).unwrap(),
+            Self::ComodRivadavia => ComodRivadavia.from_local_datetime(datetime).unwrap(),
+            Self::Cordoba => Cordoba.from_local_datetime(datetime).unwrap(),
+            Self::Jujuy => Jujuy.from_local_datetime(datetime).unwrap(),
+            Self::LaRioja => La_Rioja.from_local_datetime(datetime).unwrap(),
+            Self::Mendoza => Mendoza.from_local_datetime(datetime).unwrap(),
+            Self::RioGallegos => Rio_Gallegos.from_local_datetime(datetime).unwrap(),
+            Self::Salta => Salta.from_local_datetime(datetime).unwrap(),
+            Self::SanJuan => San_Juan.from_local_datetime(datetime).unwrap(),
+            Self::SanLuis => San_Luis.from_local_datetime(datetime).unwrap(),
+            Self::Tucuman => Tucuman.from_local_datetime(datetime).unwrap(),
+            Self::Ushuaia => Ushuaia.from_local_datetime(datetime).unwrap(),
+        };
+        p.timezone()
+            .offset_from_utc_date(&NaiveDate::from_ymd(
+                datetime.year(),
+                datetime.month(),
+                datetime.day(),
+            ))
+            .fix()
+    }
 }
 #[derive(Debug, EnumString)]
 pub enum Indiana {
@@ -253,7 +440,6 @@ pub enum Indiana {
     Vincennes,
     Winamac,
 }
-
 impl Indiana {
     pub(crate) fn try_from_path(p: &[&str]) -> Result<Self, Error> {
         if p.len() != 1 {
@@ -264,15 +450,33 @@ impl Indiana {
             other => Self::from_str(other).map_err(|_| Error::WrongTimeZone(p[0].to_string())),
         }
     }
+    pub(crate) fn get_tz(&self, datetime: &NaiveDateTime) -> FixedOffset {
+        use chrono_tz::America::Indiana::*;
+        let p = match self {
+            Self::Indianapolis => Indianapolis.from_local_datetime(datetime).unwrap(),
+            Self::Knox => Knox.from_local_datetime(datetime).unwrap(),
+            Self::Marengo => Marengo.from_local_datetime(datetime).unwrap(),
+            Self::Petersburg => Petersburg.from_local_datetime(datetime).unwrap(),
+            Self::TellCity => Tell_City.from_local_datetime(datetime).unwrap(),
+            Self::Vevay => Vevay.from_local_datetime(datetime).unwrap(),
+            Self::Vincennes => Vincennes.from_local_datetime(datetime).unwrap(),
+            Self::Winamac => Winamac.from_local_datetime(datetime).unwrap(),
+        };
+        p.timezone()
+            .offset_from_utc_date(&NaiveDate::from_ymd(
+                datetime.year(),
+                datetime.month(),
+                datetime.day(),
+            ))
+            .fix()
+    }
 }
-
 #[derive(Debug, EnumString)]
-pub enum Kentuky {
+pub enum Kentucky {
     Louisville,
     Monticello,
 }
-
-impl Kentuky {
+impl Kentucky {
     pub(crate) fn try_from_path(p: &[&str]) -> Result<Self, Error> {
         if p.len() != 1 {
             return Err(Error::TooManyElements(p.len()));
@@ -281,25 +485,50 @@ impl Kentuky {
             other => Self::from_str(other).map_err(|_| Error::WrongTimeZone(p[0].to_string())),
         }
     }
+    pub(crate) fn get_tz(&self, datetime: &NaiveDateTime) -> FixedOffset {
+        use chrono_tz::America::Kentucky::*;
+        let p = match self {
+            Self::Louisville => Louisville.from_local_datetime(datetime).unwrap(),
+            Self::Monticello => Monticello.from_local_datetime(datetime).unwrap(),
+        };
+        p.timezone()
+            .offset_from_utc_date(&NaiveDate::from_ymd(
+                datetime.year(),
+                datetime.month(),
+                datetime.day(),
+            ))
+            .fix()
+    }
 }
-
 #[derive(Debug, EnumString)]
 pub enum NorthDakota {
     Beulah,
     Center,
     NewSalem,
 }
-
 impl NorthDakota {
     pub(crate) fn try_from_path(p: &[&str]) -> Result<Self, Error> {
         if p.len() != 1 {
-             return Err(Error::TooManyElements(p.len()));
+            return Err(Error::TooManyElements(p.len()));
         }
         match p[0] {
             "New_Salem" => Ok(Self::NewSalem),
-            other => {
-                Self::from_str(other).map_err(|_| Error::WrongTimeZone(p[0].to_string()))
-            }
+            other => Self::from_str(other).map_err(|_| Error::WrongTimeZone(p[0].to_string())),
         }
+    }
+    pub(crate) fn get_tz(&self, datetime: &NaiveDateTime) -> FixedOffset {
+        use chrono_tz::America::North_Dakota::*;
+        let p = match self {
+            Self::Beulah => Beulah.from_local_datetime(datetime).unwrap(),
+            Self::Center => Center.from_local_datetime(datetime).unwrap(),
+            Self::NewSalem => New_Salem.from_local_datetime(datetime).unwrap(),
+        };
+        p.timezone()
+            .offset_from_utc_date(&NaiveDate::from_ymd(
+                datetime.year(),
+                datetime.month(),
+                datetime.day(),
+            ))
+            .fix()
     }
 }

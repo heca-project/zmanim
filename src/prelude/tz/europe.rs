@@ -1,7 +1,9 @@
 use crate::prelude::tz::*;
+use chrono::offset::{Offset, TimeZone};
+use chrono::{Datelike, FixedOffset, NaiveDate, NaiveDateTime};
+use chrono_tz::Europe::*;
 use std::str::FromStr;
 use strum_macros::EnumString;
-
 #[derive(Debug, EnumString)]
 pub enum Europe {
     Amsterdam,
@@ -70,12 +72,85 @@ pub enum Europe {
     Zaporozhye,
     Zurich,
 }
-
 impl Europe {
     pub(crate) fn try_from_path(p: &[&str]) -> Result<Self, Error> {
         if p.len() != 1 {
             return Err(Error::TooManyElements(p.len()));
         }
         Self::from_str(p[0]).map_err(|_| Error::WrongTimeZone(p[0].to_string()))
+    }
+    pub(crate) fn get_tz(&self, datetime: &NaiveDateTime) -> FixedOffset {
+        let p = match self {
+            Self::Amsterdam => Amsterdam.from_local_datetime(datetime).unwrap(),
+            Self::Andorra => Andorra.from_local_datetime(datetime).unwrap(),
+            Self::Astrakhan => Astrakhan.from_local_datetime(datetime).unwrap(),
+            Self::Athens => Athens.from_local_datetime(datetime).unwrap(),
+            Self::Belfast => Belfast.from_local_datetime(datetime).unwrap(),
+            Self::Belgrade => Belgrade.from_local_datetime(datetime).unwrap(),
+            Self::Berlin => Berlin.from_local_datetime(datetime).unwrap(),
+            Self::Bratislava => Bratislava.from_local_datetime(datetime).unwrap(),
+            Self::Brussels => Brussels.from_local_datetime(datetime).unwrap(),
+            Self::Bucharest => Bucharest.from_local_datetime(datetime).unwrap(),
+            Self::Budapest => Budapest.from_local_datetime(datetime).unwrap(),
+            Self::Busingen => Busingen.from_local_datetime(datetime).unwrap(),
+            Self::Chisinau => Chisinau.from_local_datetime(datetime).unwrap(),
+            Self::Copenhagen => Copenhagen.from_local_datetime(datetime).unwrap(),
+            Self::Dublin => Dublin.from_local_datetime(datetime).unwrap(),
+            Self::Gibraltar => Gibraltar.from_local_datetime(datetime).unwrap(),
+            Self::Guernsey => Guernsey.from_local_datetime(datetime).unwrap(),
+            Self::Helsinki => Helsinki.from_local_datetime(datetime).unwrap(),
+            Self::IsleOfMan => Isle_of_Man.from_local_datetime(datetime).unwrap(),
+            Self::Istanbul => Istanbul.from_local_datetime(datetime).unwrap(),
+            Self::Jersey => Jersey.from_local_datetime(datetime).unwrap(),
+            Self::Kaliningrad => Kaliningrad.from_local_datetime(datetime).unwrap(),
+            Self::Kiev => Kiev.from_local_datetime(datetime).unwrap(),
+            Self::Kirov => Kirov.from_local_datetime(datetime).unwrap(),
+            Self::Lisbon => Lisbon.from_local_datetime(datetime).unwrap(),
+            Self::Ljubljana => Ljubljana.from_local_datetime(datetime).unwrap(),
+            Self::London => London.from_local_datetime(datetime).unwrap(),
+            Self::Luxembourg => Luxembourg.from_local_datetime(datetime).unwrap(),
+            Self::Madrid => Madrid.from_local_datetime(datetime).unwrap(),
+            Self::Malta => Malta.from_local_datetime(datetime).unwrap(),
+            Self::Mariehamn => Mariehamn.from_local_datetime(datetime).unwrap(),
+            Self::Minsk => Minsk.from_local_datetime(datetime).unwrap(),
+            Self::Monaco => Monaco.from_local_datetime(datetime).unwrap(),
+            Self::Moscow => Moscow.from_local_datetime(datetime).unwrap(),
+            Self::Nicosia => Nicosia.from_local_datetime(datetime).unwrap(),
+            Self::Oslo => Oslo.from_local_datetime(datetime).unwrap(),
+            Self::Paris => Paris.from_local_datetime(datetime).unwrap(),
+            Self::Podgorica => Podgorica.from_local_datetime(datetime).unwrap(),
+            Self::Prague => Prague.from_local_datetime(datetime).unwrap(),
+            Self::Riga => Riga.from_local_datetime(datetime).unwrap(),
+            Self::Rome => Rome.from_local_datetime(datetime).unwrap(),
+            Self::Samara => Samara.from_local_datetime(datetime).unwrap(),
+            Self::SanMarino => San_Marino.from_local_datetime(datetime).unwrap(),
+            Self::Sarajevo => Sarajevo.from_local_datetime(datetime).unwrap(),
+            Self::Saratov => Saratov.from_local_datetime(datetime).unwrap(),
+            Self::Simferopol => Simferopol.from_local_datetime(datetime).unwrap(),
+            Self::Skopje => Skopje.from_local_datetime(datetime).unwrap(),
+            Self::Sofia => Sofia.from_local_datetime(datetime).unwrap(),
+            Self::Stockholm => Stockholm.from_local_datetime(datetime).unwrap(),
+            Self::Tallinn => Tallinn.from_local_datetime(datetime).unwrap(),
+            Self::Tirane => Tirane.from_local_datetime(datetime).unwrap(),
+            Self::Tiraspol => Tiraspol.from_local_datetime(datetime).unwrap(),
+            Self::Ulyanovsk => Ulyanovsk.from_local_datetime(datetime).unwrap(),
+            Self::Uzhgorod => Uzhgorod.from_local_datetime(datetime).unwrap(),
+            Self::Vaduz => Vaduz.from_local_datetime(datetime).unwrap(),
+            Self::Vatican => Vatican.from_local_datetime(datetime).unwrap(),
+            Self::Vienna => Vienna.from_local_datetime(datetime).unwrap(),
+            Self::Vilnius => Vilnius.from_local_datetime(datetime).unwrap(),
+            Self::Volgograd => Volgograd.from_local_datetime(datetime).unwrap(),
+            Self::Warsaw => Warsaw.from_local_datetime(datetime).unwrap(),
+            Self::Zagreb => Zagreb.from_local_datetime(datetime).unwrap(),
+            Self::Zaporozhye => Zaporozhye.from_local_datetime(datetime).unwrap(),
+            Self::Zurich => Zurich.from_local_datetime(datetime).unwrap(),
+        };
+        p.timezone()
+            .offset_from_utc_date(&NaiveDate::from_ymd(
+                datetime.year(),
+                datetime.month(),
+                datetime.day(),
+            ))
+            .fix()
     }
 }

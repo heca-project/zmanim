@@ -1,7 +1,9 @@
 use crate::prelude::tz::*;
+use chrono::offset::{Offset, TimeZone};
+use chrono::{Datelike, FixedOffset, NaiveDate, NaiveDateTime};
+use chrono_tz::Asia::*;
 use std::str::FromStr;
 use strum_macros::EnumString;
-
 #[derive(Debug, EnumString)]
 pub enum Asia {
     Aden,
@@ -112,12 +114,121 @@ pub enum Asia {
     Yekaterinburg,
     Yerevan,
 }
-
 impl Asia {
     pub(crate) fn try_from_path(p: &[&str]) -> Result<Self, Error> {
         if p.len() != 1 {
             return Err(Error::TooManyElements(p.len()));
         }
         Self::from_str(p[0]).map_err(|_| Error::WrongTimeZone(p[0].to_string()))
+    }
+    pub(crate) fn get_tz(&self, datetime: &NaiveDateTime) -> FixedOffset {
+        let p = match self {
+            Self::Aden => Aden.from_local_datetime(datetime).unwrap(),
+            Self::Almaty => Almaty.from_local_datetime(datetime).unwrap(),
+            Self::Amman => Amman.from_local_datetime(datetime).unwrap(),
+            Self::Anadyr => Anadyr.from_local_datetime(datetime).unwrap(),
+            Self::Aqtau => Aqtau.from_local_datetime(datetime).unwrap(),
+            Self::Aqtobe => Aqtobe.from_local_datetime(datetime).unwrap(),
+            Self::Ashgabat => Ashgabat.from_local_datetime(datetime).unwrap(),
+            Self::Ashkhabad => Ashkhabad.from_local_datetime(datetime).unwrap(),
+            Self::Atyrau => Atyrau.from_local_datetime(datetime).unwrap(),
+            Self::Baghdad => Baghdad.from_local_datetime(datetime).unwrap(),
+            Self::Bahrain => Bahrain.from_local_datetime(datetime).unwrap(),
+            Self::Baku => Baku.from_local_datetime(datetime).unwrap(),
+            Self::Bangkok => Bangkok.from_local_datetime(datetime).unwrap(),
+            Self::Barnaul => Barnaul.from_local_datetime(datetime).unwrap(),
+            Self::Beirut => Beirut.from_local_datetime(datetime).unwrap(),
+            Self::Bishkek => Bishkek.from_local_datetime(datetime).unwrap(),
+            Self::Brunei => Brunei.from_local_datetime(datetime).unwrap(),
+            Self::Calcutta => Calcutta.from_local_datetime(datetime).unwrap(),
+            Self::Chita => Chita.from_local_datetime(datetime).unwrap(),
+            Self::Choibalsan => Choibalsan.from_local_datetime(datetime).unwrap(),
+            Self::Chongqing => Chongqing.from_local_datetime(datetime).unwrap(),
+            Self::Chungking => Chungking.from_local_datetime(datetime).unwrap(),
+            Self::Colombo => Colombo.from_local_datetime(datetime).unwrap(),
+            Self::Dacca => Dacca.from_local_datetime(datetime).unwrap(),
+            Self::Damascus => Damascus.from_local_datetime(datetime).unwrap(),
+            Self::Dhaka => Dhaka.from_local_datetime(datetime).unwrap(),
+            Self::Dili => Dili.from_local_datetime(datetime).unwrap(),
+            Self::Dubai => Dubai.from_local_datetime(datetime).unwrap(),
+            Self::Dushanbe => Dushanbe.from_local_datetime(datetime).unwrap(),
+            Self::Famagusta => Famagusta.from_local_datetime(datetime).unwrap(),
+            Self::Gaza => Gaza.from_local_datetime(datetime).unwrap(),
+            Self::Harbin => Harbin.from_local_datetime(datetime).unwrap(),
+            Self::Hebron => Hebron.from_local_datetime(datetime).unwrap(),
+            Self::HoChiMinh => Ho_Chi_Minh.from_local_datetime(datetime).unwrap(),
+            Self::HongKong => Hong_Kong.from_local_datetime(datetime).unwrap(),
+            Self::Hovd => Hovd.from_local_datetime(datetime).unwrap(),
+            Self::Irkutsk => Irkutsk.from_local_datetime(datetime).unwrap(),
+            Self::Istanbul => Istanbul.from_local_datetime(datetime).unwrap(),
+            Self::Jakarta => Jakarta.from_local_datetime(datetime).unwrap(),
+            Self::Jayapura => Jayapura.from_local_datetime(datetime).unwrap(),
+            Self::Jerusalem => Jerusalem.from_local_datetime(datetime).unwrap(),
+            Self::Kabul => Kabul.from_local_datetime(datetime).unwrap(),
+            Self::Kamchatka => Kamchatka.from_local_datetime(datetime).unwrap(),
+            Self::Karachi => Karachi.from_local_datetime(datetime).unwrap(),
+            Self::Kashgar => Kashgar.from_local_datetime(datetime).unwrap(),
+            Self::Kathmandu => Kathmandu.from_local_datetime(datetime).unwrap(),
+            Self::Katmandu => Katmandu.from_local_datetime(datetime).unwrap(),
+            Self::Khandyga => Khandyga.from_local_datetime(datetime).unwrap(),
+            Self::Kolkata => Kolkata.from_local_datetime(datetime).unwrap(),
+            Self::Krasnoyarsk => Krasnoyarsk.from_local_datetime(datetime).unwrap(),
+            Self::KualaLumpur => Kuala_Lumpur.from_local_datetime(datetime).unwrap(),
+            Self::Kuching => Kuching.from_local_datetime(datetime).unwrap(),
+            Self::Kuwait => Kuwait.from_local_datetime(datetime).unwrap(),
+            Self::Macao => Macao.from_local_datetime(datetime).unwrap(),
+            Self::Macau => Macau.from_local_datetime(datetime).unwrap(),
+            Self::Magadan => Magadan.from_local_datetime(datetime).unwrap(),
+            Self::Makassar => Makassar.from_local_datetime(datetime).unwrap(),
+            Self::Manila => Manila.from_local_datetime(datetime).unwrap(),
+            Self::Muscat => Muscat.from_local_datetime(datetime).unwrap(),
+            Self::Nicosia => Nicosia.from_local_datetime(datetime).unwrap(),
+            Self::Novokuznetsk => Novokuznetsk.from_local_datetime(datetime).unwrap(),
+            Self::Novosibirsk => Novosibirsk.from_local_datetime(datetime).unwrap(),
+            Self::Omsk => Omsk.from_local_datetime(datetime).unwrap(),
+            Self::Oral => Oral.from_local_datetime(datetime).unwrap(),
+            Self::PhnomPenh => Phnom_Penh.from_local_datetime(datetime).unwrap(),
+            Self::Pontianak => Pontianak.from_local_datetime(datetime).unwrap(),
+            Self::Pyongyang => Pyongyang.from_local_datetime(datetime).unwrap(),
+            Self::Qatar => Qatar.from_local_datetime(datetime).unwrap(),
+            Self::Qostanay => Qostanay.from_local_datetime(datetime).unwrap(),
+            Self::Qyzylorda => Qyzylorda.from_local_datetime(datetime).unwrap(),
+            Self::Rangoon => Rangoon.from_local_datetime(datetime).unwrap(),
+            Self::Riyadh => Riyadh.from_local_datetime(datetime).unwrap(),
+            Self::Saigon => Saigon.from_local_datetime(datetime).unwrap(),
+            Self::Sakhalin => Sakhalin.from_local_datetime(datetime).unwrap(),
+            Self::Samarkand => Samarkand.from_local_datetime(datetime).unwrap(),
+            Self::Seoul => Seoul.from_local_datetime(datetime).unwrap(),
+            Self::Shanghai => Shanghai.from_local_datetime(datetime).unwrap(),
+            Self::Singapore => Singapore.from_local_datetime(datetime).unwrap(),
+            Self::Srednekolymsk => Srednekolymsk.from_local_datetime(datetime).unwrap(),
+            Self::Taipei => Taipei.from_local_datetime(datetime).unwrap(),
+            Self::Tashkent => Tashkent.from_local_datetime(datetime).unwrap(),
+            Self::Tbilisi => Tbilisi.from_local_datetime(datetime).unwrap(),
+            Self::Tehran => Tehran.from_local_datetime(datetime).unwrap(),
+            Self::TelAviv => Tel_Aviv.from_local_datetime(datetime).unwrap(),
+            Self::Thimbu => Thimbu.from_local_datetime(datetime).unwrap(),
+            Self::Thimphu => Thimphu.from_local_datetime(datetime).unwrap(),
+            Self::Tokyo => Tokyo.from_local_datetime(datetime).unwrap(),
+            Self::Tomsk => Tomsk.from_local_datetime(datetime).unwrap(),
+            Self::UjungPandang => Ujung_Pandang.from_local_datetime(datetime).unwrap(),
+            Self::Ulaanbaatar => Ulaanbaatar.from_local_datetime(datetime).unwrap(),
+            Self::UlanBator => Ulan_Bator.from_local_datetime(datetime).unwrap(),
+            Self::Urumqi => Urumqi.from_local_datetime(datetime).unwrap(),
+            Self::UstNera => UstNera.from_local_datetime(datetime).unwrap(),
+            Self::Vientiane => Vientiane.from_local_datetime(datetime).unwrap(),
+            Self::Vladivostok => Vladivostok.from_local_datetime(datetime).unwrap(),
+            Self::Yakutsk => Yakutsk.from_local_datetime(datetime).unwrap(),
+            Self::Yangon => Yangon.from_local_datetime(datetime).unwrap(),
+            Self::Yekaterinburg => Yekaterinburg.from_local_datetime(datetime).unwrap(),
+            Self::Yerevan => Yerevan.from_local_datetime(datetime).unwrap(),
+        };
+        p.timezone()
+            .offset_from_utc_date(&NaiveDate::from_ymd(
+                datetime.year(),
+                datetime.month(),
+                datetime.day(),
+            ))
+            .fix()
     }
 }

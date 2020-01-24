@@ -3,9 +3,6 @@ before_install:
 - rustup target add x86_64-unknown-linux-musl
 - rustup target add i686-unknown-linux-musl
 - rustup target add x86_64-apple-darwin
-addons:
-  apt:
-    packages: musl-tools xz-utils
 matrix:
   include:
   - os: linux
@@ -17,7 +14,9 @@ matrix:
   - os: osx
     rust: stable
     env: TARGET=x86_64-apple-darwin
-script: cargo test --target "$TARGET"
+  - os: windows
+    rust: stable
+script: cargo test
 deploy:
   cleanup: true
   provider: cargo
@@ -25,4 +24,4 @@ deploy:
   on:
     tags: true
   token:
-    secure: KQMFNlxtGA/EnoOnP6/rjv7WK7eY5Hx3acW/BpPqlIJi3T1z4AMtUgN3TyERgB+YtnteiU1KeMXWbWF0jGtp4XDkYx1MjQKCwAn3PaUUigah5uVDpNWa/1x6AKPAw2/hUxh0JtjbaW51wtlf8D/XmsM16In8rJUAVu97hlKaBIYGwVLYi1MMjLAaKuE0hnLuyxR5BLE+oRyRoCsVBFOHl/i41IMArCkAeG8DiSlvmSnt0ambUELil4kWX6WeHKQyOcYusaSH9HUD/FJb76E0q827AARnEX0Lpgg7k0HTM4g0yROqxRPWWZRQniMep8blCYb4xSMYrGpjT57AyLDuQn18hNLoiOXVQLTAxzOgweh59CoNZeEwPv7FShWjM1X+GSMbTm9g6+GKHERE5dGfeDbTEkCEUbfwvoXxm2CJdxSaJCs/Dnch0h1Q2WMmzc279/MDMqm4rGImBkUAhfC53lLzU/sYIjrNsYipiec9e71qqjY4b5qHqcNXhI9D6a1nYFWIC1gSgjrvuMNKVFf0kRns5J13tfbfqg7gh2m315W0jtjEyPlknzdtlHIu7luyTHh4u0CbB3lQ5nPbx58a8W4jVL8vMRfljGFqoCjDjAG5hGDv2/Y87i5GKEJaM4BxyeDh9SHHdsVGcczFGRoAn4by6Iqg4hNjrgNeKtzmN0U=
+    secure: RufU5M+lW2s9Z0yPyTgJuj1XXadzs8AlzuZOZjnWjTqhWnE722lIpYE35NyZURWdeP2foIJ6JidveloRh61zLJFUg/Znoa/ClIry0+UNtL6vBwBArYMXs1s+zyO6jfi7FKZ90sszC2ZiheoBWQz6uTLkwYXuuoELggj/YdC6fpF4U2pWZ+5WhyD9HMaB71B2RTAIKds1CN4NXLSiKvbqKE8hmCUPuN74cELVnWq8xWGK7O74edAgHhImZ6CrS91pjCWmfJBi743fqDbhFLZAlQLTJvlBfKeK7y25ci33aa/h6Z7vFXPspVOXPW2oEIoIiv6o4v3zYluR5XqpdWjNduvIhPLfuk9wrmi74Hx5DG48h2a2vhvucMeuQCaIDKjPmIbba1OQ/9lr68r5xaydIpjf2wpBgm9PdXMRw+RBu4UBIk8l5Wlp8fA7/Vl/T+HRd30pp+W4bIW1LD+1u36hYW2Vgp4gBrolWWFD7lD/7rzKCuPT0eqHa1+yr3z4W5DVEKP+tHE2F8bCR3Q29z4jrLZ1qT1easZutHE+0RzNuyu4p/VBaU1/INuPaohRGsL3Cesmsbw4qGHzKt71d65BAqPPHeUKCp0BfZZ7O4Va8FCho4wWuDFJJEXeGcpQQpu72G2rcbyfIUjdryiUFVbDSCum+AGUt7kLVR5zHqghL60=

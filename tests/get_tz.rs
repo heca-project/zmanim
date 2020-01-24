@@ -21,10 +21,12 @@ fn check_zmanim_windhoek() {
         17.00,
         NaiveDate::from_ymd(2020, 1, 22),
         &TimeZone::Africa(Africa::Windhoek),
-    );
+    ).unwrap();
 
     let tz_offset = FixedOffset::east(2 * 60 * 60);
-    let orig_time: DateTime::<FixedOffset> = tz_offset.from_local_datetime(&NaiveDate::from_ymd(2020, 1, 22).and_hms(19, 41,13)).unwrap();
+    let orig_time: DateTime<FixedOffset> = tz_offset
+        .from_local_datetime(&NaiveDate::from_ymd(2020, 1, 22).and_hms(19, 41, 13))
+        .unwrap();
     if tz > orig_time + Duration::minutes(5) || tz < orig_time - Duration::minutes(5) {
         panic!("{} {} {:?} is off {:?}", file!(), line!(), tz, orig_time);
     }
@@ -38,10 +40,12 @@ fn check_zmanim_cairo() {
         30.044,
         31.2357,
         NaiveDate::from_ymd(2020, 1, 22),
-        &TimeZone::Africa(Africa::Cairo)
-    );
+        &TimeZone::Africa(Africa::Cairo),
+    ).unwrap();
     let tz_offset = FixedOffset::east(2 * 60 * 60);
-    let orig_time: DateTime::<FixedOffset> = tz_offset.from_local_datetime(&NaiveDate::from_ymd(2020, 1, 22).and_hms(17, 22, 49)).unwrap();
+    let orig_time: DateTime<FixedOffset> = tz_offset
+        .from_local_datetime(&NaiveDate::from_ymd(2020, 1, 22).and_hms(17, 22, 49))
+        .unwrap();
     if tz > orig_time + Duration::minutes(5) || tz < orig_time - Duration::minutes(5) {
         panic!("{} {} {:?} is off {:?}", file!(), line!(), tz, orig_time);
     }
@@ -55,12 +59,51 @@ fn check_zmanim_madagascar() {
         -18.8792,
         47.5079,
         NaiveDate::from_ymd(2020, 1, 22),
-        &TimeZone::Africa(Africa::Nairobi)
-    );
+        &TimeZone::Africa(Africa::Nairobi),
+    ).unwrap();
 
     let tz_offset = FixedOffset::east(3 * 60 * 60);
-    let orig_time: DateTime::<FixedOffset> = tz_offset.from_local_datetime(&NaiveDate::from_ymd(2020, 1, 22).and_hms(18, 33, 22)).unwrap();
+    let orig_time: DateTime<FixedOffset> = tz_offset
+        .from_local_datetime(&NaiveDate::from_ymd(2020, 1, 22).and_hms(18, 33, 22))
+        .unwrap();
     if tz > orig_time + Duration::minutes(5) || tz < orig_time - Duration::minutes(5) {
         panic!("{} {} {:?} is off {:?}", file!(), line!(), tz, orig_time);
+    }
+}
+
+
+#[test]
+fn check_zmanim_nyc() {
+    use zmanim::prelude::tz::*;
+    let tz = get(
+        &Zmanim::Sunset,
+        40.7128,
+        -74.0060,
+        NaiveDate::from_ymd(2020, 1, 22),
+        &TimeZone::America(America::NewYork),
+    ).unwrap();
+
+    let tz_offset = FixedOffset::west(5 * 60 * 60);
+    let orig_time: DateTime<FixedOffset> = tz_offset
+        .from_local_datetime(&NaiveDate::from_ymd(2020, 1, 22).and_hms(17, 0, 0))
+        .unwrap();
+    if tz > orig_time + Duration::minutes(5) || tz < orig_time - Duration::minutes(5) {
+        panic!("{} {} {:?} is off {:?}", file!(), line!(), tz, orig_time);
+    }
+}
+
+#[test]
+fn check_zmanim_south_pole() {
+    use zmanim::prelude::tz::*;
+    let orig_date = NaiveDate::from_ymd(2020, 1, 22);
+    for i in 0..365 {
+        let tz = get(
+            &Zmanim::Sunset,
+            65.000,
+            45.0000,
+            orig_date + Duration::days(i),
+            &TimeZone::America(America::NewYork),
+        );
+        assert_ne!(tz, None);
     }
 }

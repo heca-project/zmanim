@@ -5,7 +5,6 @@ use chrono::{FixedOffset, NaiveDate, NaiveDateTime};
 use chrono_tz::Africa::*;
 use std::str::FromStr;
 use strum_macros::EnumString;
-
 #[derive(Debug, EnumString)]
 pub enum Africa {
     Abidjan,
@@ -63,7 +62,6 @@ pub enum Africa {
     Tunis,
     Windhoek,
 }
-
 impl Africa {
     pub(crate) fn try_from_path(p: &[&str]) -> Result<Self, Error> {
         if p.len() != 1 {

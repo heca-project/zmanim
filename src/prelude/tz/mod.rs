@@ -16,7 +16,6 @@ pub use crate::prelude::tz::pacific::Pacific;
 use crate::prelude::tz::us::US;
 use chrono::{FixedOffset, NaiveDateTime};
 use std::convert::TryFrom;
-
 mod africa;
 mod america;
 mod antarctica;
@@ -33,7 +32,6 @@ mod indian;
 mod mexico;
 mod pacific;
 mod us;
-
 #[non_exhaustive]
 #[derive(Debug)]
 pub enum TimeZone {
@@ -53,7 +51,6 @@ pub enum TimeZone {
     Mexico(Mexico),
     Pacific(Pacific),
     US(US),
-
     CET,
     CST6CDT,
     Cuba,
@@ -100,24 +97,38 @@ pub enum TimeZone {
     WSu,
     Zulu,
 }
-
 #[derive(Debug)]
 pub enum Error {
     WrongTimeZone(String),
     TooManyElements(usize),
 }
-
 impl TimeZone {
     pub(crate) fn get_tz(&self, datetime: &NaiveDateTime) -> FixedOffset {
         match self {
             Self::Africa(africa) => africa.get_tz(datetime),
-            _ => unimplemented!(),
+            Self::America(america) => america.get_tz(datetime),
+            Self::Antarctica(antarctica) => antarctica.get_tz(datetime),
+            Self::Arctic(arctic) => arctic.get_tz(datetime),
+            Self::Asia(asia) => asia.get_tz(datetime),
+            Self::Atlantic(atlantic) => atlantic.get_tz(datetime),
+            Self::Australia(australia) => australia.get_tz(datetime),
+            Self::Brazil(brazil) => brazil.get_tz(datetime),
+            Self::Canada(canada) => canada.get_tz(datetime),
+            Self::Chile(chile) => chile.get_tz(datetime),
+            Self::Etc(etc) => etc.get_tz(datetime),
+            Self::Europe(europe) => europe.get_tz(datetime),
+            Self::Indian(indian) => indian.get_tz(datetime),
+            Self::Mexico(mexico) => mexico.get_tz(datetime),
+            Self::Pacific(pacific) => pacific.get_tz(datetime),
+            Self::US(us) => us.get_tz(datetime),
+            _ => {
+                todo!();
+            }
         }
     }
 }
 impl TryFrom<&str> for TimeZone {
     type Error = Error;
-
     fn try_from(value: &str) -> Result<Self, Self::Error> {
         let p: Vec<&str> = value.split('/').collect();
         match p[0] {
@@ -137,7 +148,6 @@ impl TryFrom<&str> for TimeZone {
             "Mexico" => Ok(Self::Mexico(Mexico::try_from_path(&p[1..])?)),
             "Pacific" => Ok(Self::Pacific(Pacific::try_from_path(&p[1..])?)),
             "US" => Ok(Self::US(US::try_from_path(&p[1..])?)),
-
             "CET" => Ok(Self::CET),
             "Cuba" => Ok(Self::Cuba),
             "CST6CDT" => Ok(Self::CST6CDT),

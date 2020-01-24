@@ -1,17 +1,30 @@
 use crate::prelude::tz::*;
+use chrono::offset::{Offset, TimeZone};
+use chrono::{Datelike, FixedOffset, NaiveDate, NaiveDateTime};
+use chrono_tz::Arctic::*;
 use std::str::FromStr;
 use strum_macros::EnumString;
-
 #[derive(Debug, EnumString)]
 pub enum Arctic {
     Longyearbyen,
 }
-
 impl Arctic {
     pub(crate) fn try_from_path(p: &[&str]) -> Result<Self, Error> {
         if p.len() != 1 {
             return Err(Error::TooManyElements(p.len()));
         }
         Self::from_str(p[0]).map_err(|_| Error::WrongTimeZone(p[0].to_string()))
+    }
+    pub(crate) fn get_tz(&self, datetime: &NaiveDateTime) -> FixedOffset {
+        let p = match self {
+            Self::Longyearbyen => Longyearbyen.from_local_datetime(datetime).unwrap(),
+        };
+        p.timezone()
+            .offset_from_utc_date(&NaiveDate::from_ymd(
+                datetime.year(),
+                datetime.month(),
+                datetime.day(),
+            ))
+            .fix()
     }
 }
