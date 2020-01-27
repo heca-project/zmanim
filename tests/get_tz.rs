@@ -53,6 +53,14 @@ fn check_zmanim_cairo() {
     if tz > orig_time + Duration::minutes(5) || tz < orig_time - Duration::minutes(5) {
         panic!("{} {} {:?} is off {:?}", file!(), line!(), tz, orig_time);
     }
+    let _tz = get(
+        &Zmanim::Sunset,
+        30.044,
+        31.2357,
+        NaiveDate::from_ymd(2020, 1, 3),
+        &TimeZone::Africa(Africa::Cairo),
+    )
+    .unwrap();
 }
 
 #[test]
@@ -113,5 +121,63 @@ fn check_zmanim_south_pole() {
             &TimeZone::America(America::NewYork),
         );
         assert_ne!(tz, None);
+    }
+}
+
+#[test]
+fn check_zmanim_helsinki() {
+    use zmanim::prelude::tz::europe::*;
+    use zmanim::prelude::tz::*;
+    let tz = get(
+        &Zmanim::Sunset,
+        60.17,
+        24.97,
+        NaiveDate::from_ymd(2020, 1, 23),
+        &TimeZone::Europe(Europe::Helsinki),
+    )
+    .unwrap();
+
+    let tz_offset = FixedOffset::east(2 * 60 * 60);
+    let orig_time: DateTime<FixedOffset> = tz_offset
+        .from_local_datetime(&NaiveDate::from_ymd(2020, 1, 23).and_hms(16, 08, 0))
+        .unwrap();
+    if tz > orig_time + Duration::minutes(5) || tz < orig_time - Duration::minutes(5) {
+        panic!("{} {} {:?} is off {:?}", file!(), line!(), tz, orig_time);
+    }
+}
+
+#[test]
+fn check_nyc_panic() {
+    use zmanim::prelude::tz::america::*;
+    use zmanim::prelude::tz::*;
+    for i in 0..100_000 {
+        let d = NaiveDate::from_ymd(1800, 1, 1) + Duration::days(i);
+        let tz = get(
+            &Zmanim::Sunset,
+            40.7128,
+            -74.0060,
+            d,
+            &TimeZone::America(America::NewYork),
+        )
+        .unwrap();
+        eprintln!("{:?}", tz);
+    }
+}
+
+#[test]
+fn check_losangeles_panic() {
+    use zmanim::prelude::tz::america::*;
+    use zmanim::prelude::tz::*;
+    for i in 0..100_000 {
+        let d = NaiveDate::from_ymd(1800, 1, 1) + Duration::days(i);
+        let tz = get(
+            &Zmanim::Sunset,
+            34.0522,
+            -118.2437,
+            d,
+            &TimeZone::America(America::LosAngeles),
+        )
+        .unwrap();
+        eprintln!("{:?}", tz);
     }
 }

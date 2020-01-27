@@ -33,18 +33,18 @@ impl Atlantic {
     }
     pub(crate) fn get_tz(&self, datetime: &NaiveDateTime) -> FixedOffset {
         let p = match self {
-            Self::Azores => Azores.from_local_datetime(datetime).unwrap(),
-            Self::Bermuda => Bermuda.from_local_datetime(datetime).unwrap(),
-            Self::Canary => Canary.from_local_datetime(datetime).unwrap(),
-            Self::CapeVerde => Cape_Verde.from_local_datetime(datetime).unwrap(),
-            Self::Faeroe => Faeroe.from_local_datetime(datetime).unwrap(),
-            Self::Faroe => Faroe.from_local_datetime(datetime).unwrap(),
-            Self::JanMayen => Jan_Mayen.from_local_datetime(datetime).unwrap(),
-            Self::Madeira => Madeira.from_local_datetime(datetime).unwrap(),
-            Self::Reykjavik => Reykjavik.from_local_datetime(datetime).unwrap(),
-            Self::SouthGeorgia => South_Georgia.from_local_datetime(datetime).unwrap(),
-            Self::StHelena => St_Helena.from_local_datetime(datetime).unwrap(),
-            Self::Stanley => Stanley.from_local_datetime(datetime).unwrap(),
+            Self::Azores => Azores.from_utc_datetime(datetime),
+            Self::Bermuda => Bermuda.from_utc_datetime(datetime),
+            Self::Canary => Canary.from_utc_datetime(datetime),
+            Self::CapeVerde => Cape_Verde.from_utc_datetime(datetime),
+            Self::Faeroe => Faeroe.from_utc_datetime(datetime),
+            Self::Faroe => Faroe.from_utc_datetime(datetime),
+            Self::JanMayen => Jan_Mayen.from_utc_datetime(datetime),
+            Self::Madeira => Madeira.from_utc_datetime(datetime),
+            Self::Reykjavik => Reykjavik.from_utc_datetime(datetime),
+            Self::SouthGeorgia => South_Georgia.from_utc_datetime(datetime),
+            Self::StHelena => St_Helena.from_utc_datetime(datetime),
+            Self::Stanley => Stanley.from_utc_datetime(datetime),
         };
         p.timezone()
             .offset_from_utc_date(&NaiveDate::from_ymd(

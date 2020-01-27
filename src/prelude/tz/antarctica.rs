@@ -32,18 +32,18 @@ impl Antarctica {
     }
     pub(crate) fn get_tz(&self, datetime: &NaiveDateTime) -> FixedOffset {
         let p = match self {
-            Self::Casey => Casey.from_local_datetime(datetime).unwrap(),
-            Self::Davis => Davis.from_local_datetime(datetime).unwrap(),
-            Self::DumontDUrville => DumontDUrville.from_local_datetime(datetime).unwrap(),
-            Self::Macquarie => Macquarie.from_local_datetime(datetime).unwrap(),
-            Self::Mawson => Mawson.from_local_datetime(datetime).unwrap(),
-            Self::McMurdo => McMurdo.from_local_datetime(datetime).unwrap(),
-            Self::Palmer => Palmer.from_local_datetime(datetime).unwrap(),
-            Self::Rothera => Rothera.from_local_datetime(datetime).unwrap(),
-            Self::SouthPole => South_Pole.from_local_datetime(datetime).unwrap(),
-            Self::Syowa => Syowa.from_local_datetime(datetime).unwrap(),
-            Self::Troll => Troll.from_local_datetime(datetime).unwrap(),
-            Self::Vostok => Vostok.from_local_datetime(datetime).unwrap(),
+            Self::Casey => Casey.from_utc_datetime(datetime),
+            Self::Davis => Davis.from_utc_datetime(datetime),
+            Self::DumontDUrville => DumontDUrville.from_utc_datetime(datetime),
+            Self::Macquarie => Macquarie.from_utc_datetime(datetime),
+            Self::Mawson => Mawson.from_utc_datetime(datetime),
+            Self::McMurdo => McMurdo.from_utc_datetime(datetime),
+            Self::Palmer => Palmer.from_utc_datetime(datetime),
+            Self::Rothera => Rothera.from_utc_datetime(datetime),
+            Self::SouthPole => South_Pole.from_utc_datetime(datetime),
+            Self::Syowa => Syowa.from_utc_datetime(datetime),
+            Self::Troll => Troll.from_utc_datetime(datetime),
+            Self::Vostok => Vostok.from_utc_datetime(datetime),
         };
         p.timezone()
             .offset_from_utc_date(&NaiveDate::from_ymd(

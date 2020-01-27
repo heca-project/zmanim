@@ -21,10 +21,10 @@ impl Brazil {
     }
     pub(crate) fn get_tz(&self, datetime: &NaiveDateTime) -> FixedOffset {
         let p = match self {
-            Self::Acre => Acre.from_local_datetime(datetime).unwrap(),
-            Self::DeNoronha => DeNoronha.from_local_datetime(datetime).unwrap(),
-            Self::East => East.from_local_datetime(datetime).unwrap(),
-            Self::West => West.from_local_datetime(datetime).unwrap(),
+            Self::Acre => Acre.from_utc_datetime(datetime),
+            Self::DeNoronha => DeNoronha.from_utc_datetime(datetime),
+            Self::East => East.from_utc_datetime(datetime),
+            Self::West => West.from_utc_datetime(datetime),
         };
         p.timezone()
             .offset_from_utc_date(&NaiveDate::from_ymd(

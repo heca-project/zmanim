@@ -19,8 +19,8 @@ impl Chile {
     }
     pub(crate) fn get_tz(&self, datetime: &NaiveDateTime) -> FixedOffset {
         let p = match self {
-            Self::Continental => Continental.from_local_datetime(datetime).unwrap(),
-            Self::EasterIsland => EasterIsland.from_local_datetime(datetime).unwrap(),
+            Self::Continental => Continental.from_utc_datetime(datetime),
+            Self::EasterIsland => EasterIsland.from_utc_datetime(datetime),
         };
         p.timezone()
             .offset_from_utc_date(&NaiveDate::from_ymd(

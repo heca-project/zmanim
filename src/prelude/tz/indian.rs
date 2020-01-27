@@ -28,17 +28,17 @@ impl Indian {
     }
     pub(crate) fn get_tz(&self, datetime: &NaiveDateTime) -> FixedOffset {
         let p = match self {
-            Self::Antananarivo => Antananarivo.from_local_datetime(datetime).unwrap(),
-            Self::Chagos => Chagos.from_local_datetime(datetime).unwrap(),
-            Self::Christmas => Christmas.from_local_datetime(datetime).unwrap(),
-            Self::Cocos => Cocos.from_local_datetime(datetime).unwrap(),
-            Self::Comoro => Comoro.from_local_datetime(datetime).unwrap(),
-            Self::Kerguelen => Kerguelen.from_local_datetime(datetime).unwrap(),
-            Self::Mahe => Mahe.from_local_datetime(datetime).unwrap(),
-            Self::Maldives => Maldives.from_local_datetime(datetime).unwrap(),
-            Self::Mauritius => Mauritius.from_local_datetime(datetime).unwrap(),
-            Self::Mayotte => Mayotte.from_local_datetime(datetime).unwrap(),
-            Self::Reunion => Reunion.from_local_datetime(datetime).unwrap(),
+            Self::Antananarivo => Antananarivo.from_utc_datetime(datetime),
+            Self::Chagos => Chagos.from_utc_datetime(datetime),
+            Self::Christmas => Christmas.from_utc_datetime(datetime),
+            Self::Cocos => Cocos.from_utc_datetime(datetime),
+            Self::Comoro => Comoro.from_utc_datetime(datetime),
+            Self::Kerguelen => Kerguelen.from_utc_datetime(datetime),
+            Self::Mahe => Mahe.from_utc_datetime(datetime),
+            Self::Maldives => Maldives.from_utc_datetime(datetime),
+            Self::Mauritius => Mauritius.from_utc_datetime(datetime),
+            Self::Mayotte => Mayotte.from_utc_datetime(datetime),
+            Self::Reunion => Reunion.from_utc_datetime(datetime),
         };
         p.timezone()
             .offset_from_utc_date(&NaiveDate::from_ymd(

@@ -20,9 +20,9 @@ impl Mexico {
     }
     pub(crate) fn get_tz(&self, datetime: &NaiveDateTime) -> FixedOffset {
         let p = match self {
-            Self::BajaNorte => BajaNorte.from_local_datetime(datetime).unwrap(),
-            Self::BajaSur => BajaSur.from_local_datetime(datetime).unwrap(),
-            Self::General => General.from_local_datetime(datetime).unwrap(),
+            Self::BajaNorte => BajaNorte.from_utc_datetime(datetime),
+            Self::BajaSur => BajaSur.from_utc_datetime(datetime),
+            Self::General => General.from_utc_datetime(datetime),
         };
         p.timezone()
             .offset_from_utc_date(&NaiveDate::from_ymd(

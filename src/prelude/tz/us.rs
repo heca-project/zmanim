@@ -33,19 +33,19 @@ impl US {
     }
     pub(crate) fn get_tz(&self, datetime: &NaiveDateTime) -> FixedOffset {
         let p = match self {
-            Self::Pacific => Pacific.from_local_datetime(datetime).unwrap(),
-            Self::Alaska => Alaska.from_local_datetime(datetime).unwrap(),
-            Self::Aleutian => Aleutian.from_local_datetime(datetime).unwrap(),
-            Self::Arizona => Arizona.from_local_datetime(datetime).unwrap(),
-            Self::Central => Central.from_local_datetime(datetime).unwrap(),
-            Self::EastIndiana => EastIndiana.from_local_datetime(datetime).unwrap(),
-            Self::Eastern => Eastern.from_local_datetime(datetime).unwrap(),
-            Self::Hawaii => Hawaii.from_local_datetime(datetime).unwrap(),
-            Self::IndianaStarke => IndianaStarke.from_local_datetime(datetime).unwrap(),
-            Self::Michigan => Michigan.from_local_datetime(datetime).unwrap(),
-            Self::Mountain => Mountain.from_local_datetime(datetime).unwrap(),
-            Self::PacificNew => PacificNew.from_local_datetime(datetime).unwrap(),
-            Self::Samoa => Samoa.from_local_datetime(datetime).unwrap(),
+            Self::Pacific => Pacific.from_utc_datetime(datetime),
+            Self::Alaska => Alaska.from_utc_datetime(datetime),
+            Self::Aleutian => Aleutian.from_utc_datetime(datetime),
+            Self::Arizona => Arizona.from_utc_datetime(datetime),
+            Self::Central => Central.from_utc_datetime(datetime),
+            Self::EastIndiana => EastIndiana.from_utc_datetime(datetime),
+            Self::Eastern => Eastern.from_utc_datetime(datetime),
+            Self::Hawaii => Hawaii.from_utc_datetime(datetime),
+            Self::IndianaStarke => IndianaStarke.from_utc_datetime(datetime),
+            Self::Michigan => Michigan.from_utc_datetime(datetime),
+            Self::Mountain => Mountain.from_utc_datetime(datetime),
+            Self::PacificNew => PacificNew.from_utc_datetime(datetime),
+            Self::Samoa => Samoa.from_utc_datetime(datetime),
         };
         p.timezone()
             .offset_from_utc_date(&NaiveDate::from_ymd(

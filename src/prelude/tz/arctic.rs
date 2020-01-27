@@ -18,7 +18,7 @@ impl Arctic {
     }
     pub(crate) fn get_tz(&self, datetime: &NaiveDateTime) -> FixedOffset {
         let p = match self {
-            Self::Longyearbyen => Longyearbyen.from_local_datetime(datetime).unwrap(),
+            Self::Longyearbyen => Longyearbyen.from_utc_datetime(datetime),
         };
         p.timezone()
             .offset_from_utc_date(&NaiveDate::from_ymd(

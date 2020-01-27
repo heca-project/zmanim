@@ -25,14 +25,14 @@ impl Canada {
     }
     pub(crate) fn get_tz(&self, datetime: &NaiveDateTime) -> FixedOffset {
         let p = match self {
-            Self::Atlantic => Atlantic.from_local_datetime(datetime).unwrap(),
-            Self::Central => Central.from_local_datetime(datetime).unwrap(),
-            Self::Eastern => Eastern.from_local_datetime(datetime).unwrap(),
-            Self::Mountain => Mountain.from_local_datetime(datetime).unwrap(),
-            Self::Newfoundland => Newfoundland.from_local_datetime(datetime).unwrap(),
-            Self::Pacific => Pacific.from_local_datetime(datetime).unwrap(),
-            Self::Saskatchewan => Saskatchewan.from_local_datetime(datetime).unwrap(),
-            Self::Yukon => Yukon.from_local_datetime(datetime).unwrap(),
+            Self::Atlantic => Atlantic.from_utc_datetime(datetime),
+            Self::Central => Central.from_utc_datetime(datetime),
+            Self::Eastern => Eastern.from_utc_datetime(datetime),
+            Self::Mountain => Mountain.from_utc_datetime(datetime),
+            Self::Newfoundland => Newfoundland.from_utc_datetime(datetime),
+            Self::Pacific => Pacific.from_utc_datetime(datetime),
+            Self::Saskatchewan => Saskatchewan.from_utc_datetime(datetime),
+            Self::Yukon => Yukon.from_utc_datetime(datetime),
         };
         p.timezone()
             .offset_from_utc_date(&NaiveDate::from_ymd(
